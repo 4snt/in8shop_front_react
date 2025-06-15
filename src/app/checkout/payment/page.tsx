@@ -4,13 +4,11 @@ import FormWrap from "@/components/FormWrap";
 import Heading from "@/components/products/Heading";
 import { redirect } from "next/navigation";
 
-interface PaymentPageProps {
-  searchParams: {
-    orderId?: string;
-  };
-}
-
-const PaymentPage = async ({ searchParams }: PaymentPageProps) => {
+const PaymentPage = async ({
+  searchParams,
+}: {
+  searchParams?: { orderId?: string };
+}) => {
   const orderId = searchParams?.orderId;
 
   const currentUser = await getCurrentUser();
