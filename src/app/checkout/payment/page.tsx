@@ -11,9 +11,11 @@ interface PaymentPageProps {
 }
 
 const PaymentPage = async ({ searchParams }: PaymentPageProps) => {
+  const orderId = searchParams?.orderId;
+
   const currentUser = await getCurrentUser();
 
-  if (!searchParams.orderId) {
+  if (!orderId) {
     redirect("/");
   }
 
@@ -31,7 +33,7 @@ const PaymentPage = async ({ searchParams }: PaymentPageProps) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ orderId: Number(searchParams.orderId) }),
+        body: JSON.stringify({ orderId: Number(orderId) }),
         cache: "no-store",
       }
     );
