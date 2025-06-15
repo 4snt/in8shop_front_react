@@ -2,16 +2,14 @@ import { getProductById } from "@/actions/products";
 import Container from "@/components/Container";
 import ProductDetails from "@/components/products/ProductDetails";
 
-interface ProductPageProps {
+type Props = {
   params: {
     productId: string;
   };
-}
+};
 
-const Product = async ({ params }: ProductPageProps) => {
-  const { productId } = params;
-
-  const product = await getProductById(productId);
+export default async function ProductPage({ params }: Props) {
+  const product = await getProductById(params.productId);
 
   if (!product) {
     return (
@@ -29,6 +27,4 @@ const Product = async ({ params }: ProductPageProps) => {
       </div>
     </Container>
   );
-};
-
-export default Product;
+}
