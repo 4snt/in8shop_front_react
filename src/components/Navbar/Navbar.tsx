@@ -23,7 +23,7 @@ const notoSans = Noto_Sans({
 });
 
 interface NavBarProps {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
 
 const NavBar = ({ searchParams }: NavBarProps) => {
@@ -36,14 +36,17 @@ const NavBar = ({ searchParams }: NavBarProps) => {
   const pathname = usePathname();
 
   const currentParams = new URLSearchParams(
-    Object.entries(searchParams).flatMap(([key, value]) =>
-      Array.isArray(value)
-        ? value.map((v) => [key, v])
-        : value !== undefined
-        ? [[key, value]]
-        : []
-    ) as [string, string][]
+    Object.entries(searchParams ?? {}).flatMap(([key, value]) => {
+      if (typeof value === "string") {
+        return [[key, value]];
+      }
+      if (Array.isArray(value)) {
+        return value.map((v) => [key, v]);
+      }
+      return [];
+    })
   );
+
   const query = currentParams.get("query") || "";
 
   const handleSearch = (value: string) => {
@@ -101,7 +104,7 @@ const NavBar = ({ searchParams }: NavBarProps) => {
               <div className="hidden md:flex flex-1 max-w-lg">
                 <div className="flex gap-2 w-full">
                   <SearchBar onSearch={handleSearch} defaultValue={query} />
-                  <FilterDrawer searchParams={searchParams} />
+                  <FilterDrawer searchParams={searchParams ?? {}} />
                 </div>
               </div>
 

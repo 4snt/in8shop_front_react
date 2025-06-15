@@ -1,7 +1,6 @@
-
 import CartProvider from "@/Providers/CartProvider";
 import SessionProviderWrapper from "@/Providers/SessionProviderWrapper";
-import NavBarWithSuspense from "@/Providers/navbarwrapper";
+import NavBar from "@/components/Navbar/Navbar";
 import { CartDrawerProvider } from "@/hooks/useCartDrawer";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -22,15 +21,14 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "AcheiShop",
-  description: "Demonstração de Ecomerce",
+  description: "Demonstração de Ecommerce",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-
+}) {
   return (
     <html lang="en">
       <body
@@ -41,27 +39,27 @@ export default async function RootLayout({
         }}
       >
         <SessionProviderWrapper>
-        <CartProvider>
-          <CartDrawerProvider>
-        <ThemeProvider>
-
-          <div
-            className="flex"
-            style={{
-              flexDirection: "column",
-              minHeight: "100vh",
-            }}
-          >
-            <NavBarWithSuspense />
-            <main style={{ flexGrow: 1 }}>{children}
-              <Toaster richColors position="top-center"/>
-            </main>
-            <Footer />
-          </div>
-          </ThemeProvider>
-          </CartDrawerProvider>
+          <CartProvider>
+            <CartDrawerProvider>
+              <ThemeProvider>
+                <div
+                  className="flex"
+                  style={{
+                    flexDirection: "column",
+                    minHeight: "100vh",
+                  }}
+                >
+                  <NavBar />
+                  <main style={{ flexGrow: 1 }}>
+                    {children}
+                    <Toaster richColors position="top-center" />
+                  </main>
+                  <Footer />
+                </div>
+              </ThemeProvider>
+            </CartDrawerProvider>
           </CartProvider>
-          </SessionProviderWrapper>
+        </SessionProviderWrapper>
       </body>
     </html>
   );
