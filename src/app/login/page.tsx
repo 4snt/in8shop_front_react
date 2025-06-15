@@ -1,13 +1,9 @@
-import { getCurrentUser } from "@/actions/auth"; // ✅ Importa a função server-side corretamente
+import { getCurrentUser } from "@/actions/auth";
 import Container from "@/components/Container";
 import FormWrap from "@/components/FormWrap";
 import LoginForm from "@/components/Forms/LoginForm";
 
-interface LoginPageProps {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}
-
-export default async function LoginPage({}: LoginPageProps) {
+export default async function LoginPage() {
   const currentUser = await getCurrentUser();
 
   return (
