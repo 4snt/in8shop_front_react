@@ -4,7 +4,7 @@ import FormWrap from "@/components/FormWrap";
 import LoginForm from "@/components/Forms/LoginForm";
 
 interface LoginPageProps {
-  searchParams: { [key: string]: string | undefined };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
 
 export default async function LoginPage({}: LoginPageProps) {

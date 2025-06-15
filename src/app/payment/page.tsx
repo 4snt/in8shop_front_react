@@ -4,13 +4,14 @@ import FormWrap from "@/components/FormWrap";
 import Heading from "@/components/products/Heading";
 import { redirect } from "next/navigation";
 
-const PaymentPage = async ({
-  searchParams,
-}: {
-  searchParams?: { orderId?: string };
-}) => {
-  const orderId = searchParams?.orderId;
+interface PaymentPageProps {
+  searchParams?: {
+    orderId?: string;
+  };
+}
 
+const PaymentPage = async ({ searchParams }: PaymentPageProps) => {
+  const orderId = searchParams?.orderId;
   const currentUser = await getCurrentUser();
 
   if (!orderId) {
@@ -24,7 +25,7 @@ const PaymentPage = async ({
   const handlePayment = async () => {
     "use server";
 
-    const res = await fetch(
+    const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/payment/create`,
       {
         method: "POST",
@@ -36,11 +37,11 @@ const PaymentPage = async ({
       }
     );
 
-    if (!res.ok) {
-      throw new Error("Erro ao criar sessão de pagamento");
+    if (!response.ok) {
+      throw new Error("Erro ao criar sessão de pagamento.");
     }
 
-    const data = await res.json();
+    const data = await response.json();
 
     if (data?.url) {
       redirect(data.url);
