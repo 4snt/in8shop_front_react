@@ -11,6 +11,7 @@ const CheckoutClient = () => {
   const [error, setError] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
   const router = useRouter();
+
   useEffect(() => {
     if (!cartProducts || cartProducts.length === 0) return;
     if (paymentIntent) return; // já foi criado, evita nova chamada
@@ -28,7 +29,8 @@ const CheckoutClient = () => {
       .then((res) => {
         setLoading(false);
         if (res.status === 401) {
-          return router.push("/login");
+          router.push("/login");
+          return null;
         }
         return res.json();
       })
@@ -41,10 +43,10 @@ const CheckoutClient = () => {
       })
       .catch((error) => {
         setError(true);
-        toast.error("Something went wrong.");
+        toast.error("Algo deu errado ao criar pagamento.");
         console.error(error);
       });
-  }, [cartProducts, router]); // removido `paymentIntent` do array
+  }, [cartProducts, router, handleSetPaymentIntent, paymentIntent]);
 
   return <>Checkout</>;
 };
