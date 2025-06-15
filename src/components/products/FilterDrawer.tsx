@@ -1,18 +1,22 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { convertToUrlSearchParams } from "@/utils/url";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { MdFilterList } from "react-icons/md";
 import Button from "../Button";
 
-const FilterDrawer = () => {
+interface FilterDrawerProps {
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+
+const FilterDrawer = ({ searchParams }: FilterDrawerProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
-  const currentParams = new URLSearchParams(searchParams);
+  const currentParams = convertToUrlSearchParams(searchParams);
 
   const [provider, setProvider] = useState(currentParams.get("provider") || "");
   const [category, setCategory] = useState(currentParams.get("category") || "");
@@ -55,7 +59,7 @@ const FilterDrawer = () => {
       params.delete("maxPrice");
     }
 
-    params.set("page", "1"); // 🔥 Sempre volta pra página 1
+    params.set("page", "1");
 
     router.push(`${pathname}?${params.toString()}`);
     setIsOpen(false);
@@ -70,6 +74,7 @@ const FilterDrawer = () => {
       "minPrice",
       "maxPrice",
     ].forEach((key) => params.delete(key));
+
     params.set("page", "1");
     router.push(`${pathname}?${params.toString()}`);
 

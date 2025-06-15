@@ -2,7 +2,8 @@
 
 import { getProducts } from "@/actions/products";
 import { Product } from "@/types/product";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { SearchParamsParser } from "@/utils/SearchParamsParser";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import FormWrap from "../FormWrap";
@@ -11,21 +12,44 @@ import Pagination from "./Pagination";
 import ProductCard from "./ProductCard";
 import SearchBar from "./SearchBar";
 
-export default function ProductGrid() {
+interface ProductGridProps {
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+
+export default function ProductGrid({ searchParams }: ProductGridProps) {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
-  const query = searchParams.get("query") || "";
-  const currentPage = parseInt(searchParams.get("page") || "1", 10);
+  const parser = new SearchParamsParser(searchParams);
+
+  const query = parser.getString("query");
+  const currentPage = parser.getNumber("page", 1);
+  const provider = parser.getString("provider");
+  const category = parser.getString("category");
+  const hasDiscount = parser.getBoolean("hasDiscount");
+  const minPrice = parser.getNumber("minPrice");
+  const maxPrice = parser.getNumber("maxPrice");
 
   const PRODUCTS_PER_PAGE = 18;
 
+  const convertToUrlSearchParams = (params: {
+    [key: string]: string | string[] | undefined;
+  }) => {
+    const urlParams = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach((v) => urlParams.append(key, v));
+      } else if (value !== undefined) {
+        urlParams.set(key, value);
+      }
+    });
+    return urlParams;
+  };
   const handleSearch = (value: string) => {
-    const params = new URLSearchParams(searchParams);
+    const params = convertToUrlSearchParams(searchParams);
     if (value) {
       params.set("query", value);
     } else {
@@ -36,27 +60,21 @@ export default function ProductGrid() {
   };
 
   const handlePageChange = (page: number) => {
-    const params = new URLSearchParams(searchParams);
+    const params = convertToUrlSearchParams(searchParams);
     params.set("page", String(page));
     router.push(`${pathname}?${params.toString()}`);
   };
-
   useEffect(() => {
     const loadProducts = async () => {
       setLoading(true);
 
       const data = await getProducts({
-        query: searchParams.get("query") || undefined,
-        provider: searchParams.get("provider") || undefined,
-        category: searchParams.get("category") || undefined,
-        hasDiscount:
-          searchParams.get("hasDiscount") === "true" ? true : undefined,
-        minPrice: searchParams.get("minPrice")
-          ? Number(searchParams.get("minPrice"))
-          : undefined,
-        maxPrice: searchParams.get("maxPrice")
-          ? Number(searchParams.get("maxPrice"))
-          : undefined,
+        query: query || undefined,
+        provider: provider || undefined,
+        category: category || undefined,
+        hasDiscount: hasDiscount ? true : undefined,
+        minPrice: minPrice || undefined,
+        maxPrice: maxPrice || undefined,
       });
 
       if (!data.length) {
@@ -70,7 +88,7 @@ export default function ProductGrid() {
     };
 
     loadProducts();
-  }, [searchParams, router]);
+  }, [query, provider, category, hasDiscount, minPrice, maxPrice, router]);
 
   const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
   const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
@@ -85,7 +103,7 @@ export default function ProductGrid() {
       <FormWrap className="p-1">
         <div className="flex gap-2 w-full">
           <SearchBar onSearch={handleSearch} defaultValue={query} />
-          <FilterDrawer />
+          <FilterDrawer searchParams={searchParams} />
         </div>
       </FormWrap>
 
