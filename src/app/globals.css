@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+/* Tema claro */
+:root[data-theme="light"] {
+  --background: #f9fafb; /* cinza claro, não branco puro */
+  --foreground: #1f2937; /* cinza escuro - mais confortável que preto */
+  --muted: #6b7280; /* cinza médio para textos secundários */
+  --surface: #ffffff; /* para cards e containers */
+  --border: #354559;
+}
+
+/* Tema escuro */
+:root[data-theme="dark"] {
+  --background: #111827; /* fundo quase preto, mas com um toque azul escuro */
+  --foreground: #f3f4f6; /* branco suave */
+  --muted: #9ca3af; /* cinza claro */
+  --surface: #1f2937; /* containers e cards */
+  --border: #6d7a91;
+}
+
+/* Tokens padrão para uso no Tailwind */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* fallback automático caso o usuário tenha preferência por dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #111827;
+    --foreground: #f3f4f6;
+    --muted: #9ca3af;
+    --surface: #1f2937;
+    --border: #374151;
+  }
+}
+
+/* aplica como base no <body> */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+  transition: background 0.3s ease, color 0.3s ease;
+}
