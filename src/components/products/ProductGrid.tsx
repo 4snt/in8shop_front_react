@@ -14,7 +14,7 @@ import ProductCard from "./ProductCard";
 import SearchBar from "./SearchBar";
 
 interface ProductGridProps {
-  searchParams: SearchParams;
+  searchParams?: SearchParams;
 }
 
 export default function ProductGrid({ searchParams }: ProductGridProps) {
@@ -24,7 +24,7 @@ export default function ProductGrid({ searchParams }: ProductGridProps) {
   const router = useRouter();
   const pathname = usePathname();
 
-  const parser = new SearchParamsParser(searchParams);
+  const parser = new SearchParamsParser(searchParams ?? {});
 
   const query = parser.getString("query");
   const currentPage = parser.getNumber("page", 1);
@@ -50,7 +50,7 @@ export default function ProductGrid({ searchParams }: ProductGridProps) {
     return urlParams;
   };
   const handleSearch = (value: string) => {
-    const params = convertToUrlSearchParams(searchParams);
+    const params = convertToUrlSearchParams(searchParams ?? {});
     if (value) {
       params.set("query", value);
     } else {
@@ -61,7 +61,7 @@ export default function ProductGrid({ searchParams }: ProductGridProps) {
   };
 
   const handlePageChange = (page: number) => {
-    const params = convertToUrlSearchParams(searchParams);
+    const params = convertToUrlSearchParams(searchParams ?? {});
     params.set("page", String(page));
     router.push(`${pathname}?${params.toString()}`);
   };
@@ -104,7 +104,7 @@ export default function ProductGrid({ searchParams }: ProductGridProps) {
       <FormWrap className="p-1">
         <div className="flex gap-2 w-full">
           <SearchBar onSearch={handleSearch} defaultValue={query} />
-          <FilterDrawer searchParams={searchParams} />
+          <FilterDrawer searchParams={searchParams ?? {}} />
         </div>
       </FormWrap>
 
