@@ -3,7 +3,7 @@ import Container from "../components/Container";
 import HomeBanner from "../components/HomeBanner";
 
 export default function Home({
-  searchParams,
+  searchParams = {},
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
@@ -11,7 +11,7 @@ export default function Home({
     <div className="p-8">
       <Container>
         <HomeBanner />
-        <ProductGrid searchParams={searchParams ?? {}} />
+        <ProductGrid searchParams={searchParams} />
       </Container>
     </div>
   );
