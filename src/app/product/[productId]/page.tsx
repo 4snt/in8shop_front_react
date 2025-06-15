@@ -3,13 +3,14 @@ import Container from "@/components/Container";
 import ProductDetails from "@/components/products/ProductDetails";
 
 type Props = {
-  params: {
+  params: Promise<{
     productId: string;
-  };
+  }>;
 };
 
 export default async function ProductPage({ params }: Props) {
-  const product = await getProductById(params.productId);
+  const { productId } = await params;
+  const product = await getProductById(productId);
 
   if (!product) {
     return (
