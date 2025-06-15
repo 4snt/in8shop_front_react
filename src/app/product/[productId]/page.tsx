@@ -3,9 +3,9 @@ import Container from "@/components/Container";
 import ProductDetails from "@/components/products/ProductDetails";
 
 type Props = {
-  params: Promise<{
+  params: {
     productId: string;
-  }>;
+  };
 };
 
 export default async function ProductPage({ params }: Props) {
