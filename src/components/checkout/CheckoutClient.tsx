@@ -48,7 +48,20 @@ const CheckoutClient = () => {
       });
   }, [cartProducts, router, handleSetPaymentIntent, paymentIntent]);
 
-  return <>Checkout</>;
+  return (
+    <div className="flex flex-col gap-4">
+      {loading && <p>Carregando pagamento...</p>}
+      {error && (
+        <p className="text-red-500">
+          Ocorreu um erro ao gerar o pagamento. Tente novamente.
+        </p>
+      )}
+      {!loading && !error && clientSecret && (
+        <p>Checkout pronto! Client Secret gerado.</p>
+      )}
+      {!loading && !error && !clientSecret && <p>Preparando pagamento...</p>}
+    </div>
+  );
 };
 
 export default CheckoutClient;
