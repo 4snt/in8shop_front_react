@@ -2,11 +2,11 @@
 
 import { useThemeContext } from "@/Providers/ThemeContext";
 import { useCartDrawer } from "@/hooks/useCartDrawer";
-import { Menu, X } from "lucide-react"; // Ícones
+import { Menu, X } from "lucide-react";
 import { Noto_Sans } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import FloatingCartDrawer from "../Cart/FloatingCartDrawer";
 import Container from "../Container";
@@ -22,7 +22,11 @@ const notoSans = Noto_Sans({
   weight: ["400", "700"],
 });
 
-const NavBar = () => {
+interface NavBarProps {
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+
+const NavBar = ({ searchParams }: NavBarProps) => {
   const { theme } = useThemeContext();
   const [mounted, setMounted] = useState(false);
   const { isOpen, closeDrawer } = useCartDrawer();
@@ -30,20 +34,30 @@ const NavBar = () => {
 
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
-  const query = searchParams.get("query") || "";
+  const currentParams = new URLSearchParams(
+    Object.entries(searchParams).flatMap(([key, value]) =>
+      Array.isArray(value)
+        ? value.map((v) => [key, v])
+        : value !== undefined
+        ? [[key, value]]
+        : []
+    ) as [string, string][]
+  );
+  const query = currentParams.get("query") || "";
 
   const handleSearch = (value: string) => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(currentParams);
+
     if (value) {
       params.set("query", value);
     } else {
       params.delete("query");
     }
+
     params.set("page", "1");
     router.push(`${pathname}?${params.toString()}`);
-    setMenuOpen(false); // Fecha o menu ao buscar
+    setMenuOpen(false);
   };
 
   useEffect(() => {
@@ -85,11 +99,9 @@ const NavBar = () => {
 
               {/* 🔍 Barra de busca em desktop */}
               <div className="hidden md:flex flex-1 max-w-lg">
-                <div>
-                  <div className="flex gap-2 w-full">
-                    <SearchBar onSearch={handleSearch} defaultValue={query} />
-                    <FilterDrawer />
-                  </div>
+                <div className="flex gap-2 w-full">
+                  <SearchBar onSearch={handleSearch} defaultValue={query} />
+                  <FilterDrawer searchParams={searchParams} />
                 </div>
               </div>
 
@@ -99,7 +111,7 @@ const NavBar = () => {
                 <ThemeSwitch />
                 <UserMenu />
 
-                {/* Menu Hambúrguer no mobile */}
+                {/* Menu mobile */}
                 <button
                   className="md:hidden"
                   onClick={() => setMenuOpen(!menuOpen)}
