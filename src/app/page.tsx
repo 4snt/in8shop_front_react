@@ -2,11 +2,14 @@ import Container from "@/components/Container";
 import HomeBanner from "@/components/HomeBanner";
 import ProductGrid from "@/components/products/ProductGrid";
 
-interface SearchParams {
-  [key: string]: string | string[] | undefined;
-}
+type SearchParams = { [key: string]: string | string[] | undefined };
 
-export default function Home({ searchParams }: { searchParams: SearchParams }) {
+type Props = {
+  searchParams: SearchParams;
+};
+
+export default async function Home({ searchParams }: Props) {
+  // Você pode usar await aqui normalmente
   return (
     <div className="p-8">
       <Container>
