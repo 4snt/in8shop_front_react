@@ -1,12 +1,13 @@
 import Container from "@/components/Container";
 import HomeBanner from "@/components/HomeBanner";
 import ProductGrid from "@/components/products/ProductGrid";
+import { SearchParams } from "@/types/SearchParams";
 
-type Props = {
-  searchParams: { [key: string]: string | string[] | undefined };
-};
-
-export default async function Home({ searchParams }: Props) {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
   return (
     <div className="p-8">
       <Container>

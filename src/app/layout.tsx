@@ -2,22 +2,12 @@ import CartProvider from "@/Providers/CartProvider";
 import SessionProviderWrapper from "@/Providers/SessionProviderWrapper";
 import NavBar from "@/components/Navbar/Navbar";
 import { CartDrawerProvider } from "@/hooks/useCartDrawer";
+import { GeistMono, GeistSans } from "geist/font";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { Toaster } from 'sonner';
-import { ThemeProvider } from '../Providers/ThemeContext';
+import { Toaster } from "sonner";
+import { ThemeProvider } from "../Providers/ThemeContext";
 import Footer from "../components/footer/Footer";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "AcheiShop",
@@ -30,31 +20,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        style={{
-          backgroundColor: "var(--background)",
-          color: "var(--foreground)",
-        }}
-      >
+    <html
+      lang="pt-BR"
+      className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}
+    >
+      <body>
         <SessionProviderWrapper>
           <CartProvider>
             <CartDrawerProvider>
               <ThemeProvider>
-                <div
-                  className="flex"
-                  style={{
-                    flexDirection: "column",
-                    minHeight: "100vh",
-                  }}
-                >
+                <div className="flex flex-col min-h-screen">
                   <NavBar />
-                  <main style={{ flexGrow: 1 }}>
-                    {children}
-                    <Toaster richColors position="top-center" />
-                  </main>
+                  <main className="flex-grow">{children}</main>
                   <Footer />
+                  <Toaster richColors position="top-center" />
                 </div>
               </ThemeProvider>
             </CartDrawerProvider>
