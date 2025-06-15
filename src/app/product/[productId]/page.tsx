@@ -2,13 +2,13 @@ import { getProductById } from "@/actions/products";
 import Container from "@/components/Container";
 import ProductDetails from "@/components/products/ProductDetails";
 
-export interface PageProps {
+interface ProductPageProps {
   params: {
     productId: string;
   };
 }
 
-const Product = async ({ params }: PageProps) => {
+const Product = async ({ params }: ProductPageProps) => {
   const { productId } = params;
 
   const product = await getProductById(productId);
