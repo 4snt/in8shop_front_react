@@ -1,12 +1,12 @@
 
 import CartProvider from "@/Providers/CartProvider";
 import SessionProviderWrapper from "@/Providers/SessionProviderWrapper";
+import NavBarWithSuspense from "@/Providers/navbarwrapper";
 import { CartDrawerProvider } from "@/hooks/useCartDrawer";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from 'sonner';
 import { ThemeProvider } from '../Providers/ThemeContext';
-import NavBar from "../components/Navbar/Navbar";
 import Footer from "../components/footer/Footer";
 import "./globals.css";
 
@@ -52,7 +52,7 @@ export default async function RootLayout({
               minHeight: "100vh",
             }}
           >
-            <NavBar />
+            <NavBarWithSuspense />
             <main style={{ flexGrow: 1 }}>{children}
               <Toaster richColors position="top-center"/>
             </main>
