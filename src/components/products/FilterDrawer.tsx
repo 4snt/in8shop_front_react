@@ -1,5 +1,6 @@
 "use client";
 
+import { SearchParams } from "@/types/SearchParams";
 import { convertToUrlSearchParams } from "@/utils/url";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -7,7 +8,7 @@ import { MdFilterList } from "react-icons/md";
 import Button from "../Button";
 
 interface FilterDrawerProps {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: SearchParams;
 }
 
 const FilterDrawer = ({ searchParams }: FilterDrawerProps) => {

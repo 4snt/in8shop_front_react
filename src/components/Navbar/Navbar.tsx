@@ -2,6 +2,7 @@
 
 import { useThemeContext } from "@/Providers/ThemeContext";
 import { useCartDrawer } from "@/hooks/useCartDrawer";
+import { SearchParams } from "@/types/SearchParams";
 import { Menu, X } from "lucide-react";
 import { Noto_Sans } from "next/font/google";
 import Image from "next/image";
@@ -23,7 +24,7 @@ const notoSans = Noto_Sans({
 });
 
 interface NavBarProps {
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams?: SearchParams;
 }
 
 const NavBar = ({ searchParams }: NavBarProps) => {

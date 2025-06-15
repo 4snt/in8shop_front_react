@@ -2,6 +2,7 @@
 
 import { getProducts } from "@/actions/products";
 import { Product } from "@/types/product";
+import { SearchParams } from "@/types/SearchParams";
 import { SearchParamsParser } from "@/utils/SearchParamsParser";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -13,7 +14,7 @@ import ProductCard from "./ProductCard";
 import SearchBar from "./SearchBar";
 
 interface ProductGridProps {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: SearchParams;
 }
 
 export default function ProductGrid({ searchParams }: ProductGridProps) {
