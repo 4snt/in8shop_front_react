@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import type { NextConfig } from 'next';
 
 const backendUrl = process.env.NEXT_PUBLIC_API_URL || '';

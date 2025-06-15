@@ -27,6 +27,7 @@
     "acheishop": "file:",
     "axios": "^1.9.0",
     "bcrypt": "^6.0.0",
+    "dotenv": "^16.5.0",
     "geist": "^1.4.2",
     "lucide-react": "^0.511.0",
     "moment": "^2.30.1",
