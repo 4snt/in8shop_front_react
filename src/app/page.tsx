@@ -7,7 +7,7 @@ type HomeProps = {
   searchParams?: SearchParams;
 };
 
-export default function Home({ searchParams = {} }: HomeProps) {
+export default async function Home({ searchParams = {} }: HomeProps) {
   return (
     <div className="p-8">
       <Container>
