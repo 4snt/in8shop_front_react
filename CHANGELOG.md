@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/4snt/in8shop_front_react/compare/v0.1.11...v0.2.0) (2025-06-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* **payment:** split payment page into SSR dynamic and client component" -m "BREAKING CHANGE: /payment route no longer supports static export; now uses server/page.tsx (dynamic) and client/PaymentClient.tsx for client hooks
+
+### Features
+
+* **payment:** split payment page into SSR dynamic and client component" -m "BREAKING CHANGE: /payment route no longer supports static export; now uses server/page.tsx (dynamic) and client/PaymentClient.tsx for client hooks ([0236083](https://github.com/4snt/in8shop_front_react/commit/02360831f006a0dad2b6c5b9f8304e7af6123a0f))
+
 ### [0.1.11](https://github.com/4snt/in8shop_front_react/compare/v0.1.10...v0.1.11) (2025-06-16)
 
 ### 0.1.10 (2025-06-16)
