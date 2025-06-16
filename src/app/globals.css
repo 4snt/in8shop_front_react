@@ -1,48 +1,65 @@
 @import "tailwindcss";
 
-/* Tema claro */
+/* 🌞 Tema Claro */
 :root[data-theme="light"] {
-  --background: #f9fafb; /* cinza claro, não branco puro */
-  --foreground: #1f2937; /* cinza escuro - mais confortável que preto */
-  --muted: #6b7280; /* cinza médio para textos secundários */
-  --surface: #ffffff; /* para cards e containers */
-  --border: #354559;
+  --background: #ffffff;
+  --foreground: #bd008d;
+  --muted: #6b7280;
+  --surface: #f9fafb;
+
+  --border: #e5e7eb;
+  --border-accent: #bd008d;
+
+  --primary: #9007a5;
+  --secondary: #bd008d;
 }
 
-/* Tema escuro */
+/* 🌚 Tema Escuro */
 :root[data-theme="dark"] {
-  --background: #111827; /* fundo quase preto, mas com um toque azul escuro */
-  --foreground: #f3f4f6; /* branco suave */
-  --muted: #9ca3af; /* cinza claro */
-  --surface: #1f2937; /* containers e cards */
-  --border: #6d7a91;
+  --background: #111111;
+  --foreground: #9007a5;
+  --muted: #9ca3af;
+  --surface: #1f1f1f;
+
+  --border: #374151;
+  --border-accent: #bd008d;
+
+  --primary: #9007a5;
+  --secondary: #bd008d;
 }
 
-/* Tokens padrão para uso no Tailwind */
+/* 🎨 Tokens Tailwind Inline */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-surface: var(--surface);
+
   --color-border: var(--border);
+  --color-border-accent: var(--border-accent);
+
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-/* fallback automático caso o usuário tenha preferência por dark mode */
+/* 🌙 Fallback Dark Mode */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #111827;
+    --background: #111111;
     --foreground: #f3f4f6;
     --muted: #9ca3af;
-    --surface: #1f2937;
+    --surface: #1f1f1f;
     --border: #374151;
+    --border-accent: #bd008d;
   }
 }
 
-/* aplica como base no <body> */
+/* ✨ Global */
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), sans-serif;
   transition: background 0.3s ease, color 0.3s ease;

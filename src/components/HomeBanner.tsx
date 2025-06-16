@@ -1,13 +1,13 @@
 "use client";
 
-import { useThemeContext } from "@/Providers/ThemeContext"; // Hook personalizado para acessar o tema atual
+import { useThemeContext } from "@/Providers/ThemeContext";
+import { useInvertedThemeColors } from "@/utils/useInvertedThemeColors";
 import Image from "next/image";
 
 const HomeBanner = () => {
-  // Obtém o tema atual ('light' ou 'dark') do ThemeContext
   const { theme } = useThemeContext();
+  const { background, foreground } = useInvertedThemeColors();
 
-  // Caminhos para as imagens do banner com base no tema
   const lightImage = "/banner/summer-light.png";
   const darkImage = "/banner/summer-dark.png";
 
@@ -15,17 +15,14 @@ const HomeBanner = () => {
     <div
       className="
         relative
-        text-white
-        dark:text-[#1f2937]
         mb-8
         rounded-xl
         shadow-md
         transition-all
       "
       style={{
-        // Essas cores vêm das variáveis CSS definidas por data-theme
-        background: "var(--foreground)", // cor de fundo dinâmica (inverte entre claro e escuro)
-        color: "var(--surface)", // cor do texto dinâmica
+        backgroundColor: background,
+        color: foreground,
       }}
     >
       <div
@@ -46,12 +43,12 @@ const HomeBanner = () => {
             Summer Sale
           </h1>
           <p className="mt-4 text-lg">Enjoy discounts on selected items</p>
-          <p className="text-2xl font-semibold mt-2 text-blue-300 dark:text-blue-600">
+          <p className="text-2xl font-semibold mt-2 text-blue-400 dark:text-blue-500">
             Get 50% off
           </p>
         </div>
 
-        {/* Imagem do banner adaptada ao tema */}
+        {/* Imagem do banner */}
         <div className="w-full md:w-1/3 flex justify-center items-center">
           <div className="relative h-[160px] w-[260px] md:h-[200px] md:w-[320px]">
             <Image
