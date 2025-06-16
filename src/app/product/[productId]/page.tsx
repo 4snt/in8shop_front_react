@@ -1,4 +1,4 @@
-import { getProductById } from "@/actions/products";
+import { getProductById } from "@/app/actions/products";
 import Container from "@/components/Container";
 import ProductDetails from "@/components/products/ProductDetails";
 

@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/actions/auth";
+import { getCurrentUser } from "@/app/actions/auth";
 import Container from "@/components/Container";
 import FormWrap from "@/components/FormWrap";
 import RegisterForm from "@/components/Forms/RegisterForm";

@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/actions/auth";
+import { getCurrentUser } from "@/app/actions/auth";
 import Container from "@/components/Container";
 import CheckoutForm from "@/components/Forms/CheckoutForm";
 import FormWrap from "@/components/FormWrap";
@@ -10,7 +10,6 @@ export const dynamic = "force-dynamic";
 const CheckoutPage = async () => {
   const currentUser = await getCurrentUser();
 
-  // 🔥 Se não estiver logado, redireciona para login
   if (!currentUser) {
     redirect("/login");
   }
@@ -19,7 +18,7 @@ const CheckoutPage = async () => {
     <Container>
       <FormWrap>
         <Heading title="Checkout" center />
-        <CheckoutForm currentUser={currentUser} />
+        <CheckoutForm />
       </FormWrap>
     </Container>
   );

@@ -1,7 +1,5 @@
 "use client";
 
-import axios from "axios";
-
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 // ✅ Registro no client
@@ -14,16 +12,24 @@ export async function registerUser({
   email: string;
   password: string;
 }) {
-  const res = await axios.post(`${API_URL}/auth/register`, {
-    name,
-    email,
-    password,
+  const res = await fetch(`${API_URL}/auth/register`, {
+    method: "POST",
+    credentials: "include", // 🔥 envia cookie
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name, email, password }),
   });
 
-  return res.data;
+  if (!res.ok) {
+    const data = await res.json();
+    throw new Error(data.message || "Erro ao registrar");
+  }
+
+  return await res.json();
 }
 
-// ✅ Login no client → token vai para localStorage
+// ✅ Login no client → cookie HttpOnly é setado automaticamente
 export async function loginUser({
   email,
   password,
@@ -31,44 +37,44 @@ export async function loginUser({
   email: string;
   password: string;
 }) {
-  const res = await axios.post(`${API_URL}/auth/login`, {
-    email,
-    password,
+  const res = await fetch(`${API_URL}/auth/login`, {
+    method: "POST",
+    credentials: "include", // 🔥 permite cookie cruzado
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
   });
 
-  const { token } = res.data;
-
-  if (typeof window !== "undefined") {
-    localStorage.setItem("token", token);
+  if (!res.ok) {
+    const data = await res.json();
+    throw new Error(data.message || "Erro ao fazer login");
   }
 
-  return token;
+  return await res.json();
 }
 
-// ✅ Obter usuário no client a partir do token no localStorage
+// ✅ Obter usuário no client (não precisa localStorage, usa cookie)
 export async function getCurrentUserClient() {
-  const token =
-    typeof window !== "undefined" ? localStorage.getItem("token") : null;
-
-  if (!token) return null;
-
   try {
-    const res = await axios.get(`${API_URL}/auth/me`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    const res = await fetch(`${API_URL}/auth/me`, {
+      method: "GET",
+      credentials: "include", // 🔥 cookie vai automaticamente
     });
 
-    return res.data;
+    if (!res.ok) return null;
+
+    return await res.json();
   } catch (error) {
     console.error("Erro ao buscar usuário (client):", error);
     return null;
   }
 }
 
-// ✅ Logout client → remove token do localStorage
-export function logoutClient() {
-  if (typeof window !== "undefined") {
-    localStorage.removeItem("token");
-  }
+// ✅ Logout no client → backend limpa o cookie
+export async function logoutClient() {
+  await fetch(`${API_URL}/auth/logout`, {
+    method: "POST",
+    credentials: "include",
+  });
 }

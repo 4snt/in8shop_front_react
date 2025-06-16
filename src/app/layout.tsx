@@ -1,5 +1,5 @@
+import { AuthProvider } from "@/Providers/AuthProvider";
 import CartProvider from "@/Providers/CartProvider";
-import SessionProviderWrapper from "@/Providers/SessionProviderWrapper";
 import NavBar from "@/components/Navbar/Navbar";
 import { CartDrawerProvider } from "@/hooks/useCartDrawer";
 import { GeistMono, GeistSans } from "geist/font";
@@ -10,7 +10,7 @@ import Footer from "../components/footer/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AcheiShop",
+  title: "In8Shop",
   description: "Demonstração de Ecommerce",
 };
 
@@ -25,7 +25,7 @@ export default function RootLayout({
       className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}
     >
       <body>
-        <SessionProviderWrapper>
+        <AuthProvider>
           <CartProvider>
             <CartDrawerProvider>
               <ThemeProvider>
@@ -38,7 +38,7 @@ export default function RootLayout({
               </ThemeProvider>
             </CartDrawerProvider>
           </CartProvider>
-        </SessionProviderWrapper>
+        </AuthProvider>
       </body>
     </html>
   );

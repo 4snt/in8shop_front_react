@@ -7,7 +7,7 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineGoogle } from "react-icons/ai";
 import { toast } from "sonner";
 
-import { loginServer, registerServer } from "@/actions/auth";
+import { loginServer, registerServer } from "@/app/actions/auth";
 import { SafeUser } from "@/types/next-auth";
 
 import Button from "../Button";
@@ -97,7 +97,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ currentUser }) => {
       onSubmit={handleSubmit(onSubmit, onError)}
       className="w-full flex flex-col gap-4"
     >
-      <Heading title="Sign up for AcheiShop" />
+      <Heading title="Sign up for In8Shop" />
 
       <Button
         type="button"

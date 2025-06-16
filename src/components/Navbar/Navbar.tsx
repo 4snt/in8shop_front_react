@@ -97,7 +97,7 @@ const NavBar = ({ searchParams }: NavBarProps) => {
                   />
                 )}
                 <span className={`${notoSans.className} text-xl font-semibold`}>
-                  achei<span className="text-primary">shop!</span>
+                  In8<span className="text-primary">shop!</span>
                 </span>
               </Link>
 

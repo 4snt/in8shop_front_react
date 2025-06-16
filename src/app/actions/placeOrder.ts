@@ -1,6 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { v4 as uuidv4 } from "uuid";
 
 export const placeOrder = async ({
   userId,
@@ -24,6 +25,7 @@ export const placeOrder = async ({
 }) => {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
+  const paymentIntentId = uuidv4();
 
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/orders`, {
@@ -36,6 +38,7 @@ export const placeOrder = async ({
         userId,
         amount,
         currency,
+        paymentIntentId,
         products,
         address,
       }),

@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 
-import { getProducts } from "@/actions/products";
+import { getProducts } from "@/app/actions/products";
 import Container from "@/components/Container";
 import HomeBanner from "@/components/HomeBanner";
 import ProductGrid from "@/components/products/ProductGrid";

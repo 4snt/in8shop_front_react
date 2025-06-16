@@ -1,28 +1,22 @@
 "use client";
 
-import { placeOrder } from "@/actions/placeOrder";
+import { placeOrder } from "@/app/actions/placeOrder";
 import { useCart } from "@/hooks/useCart";
 import { formatPrice } from "@/utils/formatPrice";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { useAuth } from "../../Providers/AuthProvider";
 import Button from "../Button";
 import Input from "../inputs/Input";
 import Heading from "../products/Heading";
 
-interface CheckoutFormProps {
-  currentUser: {
-    id: number;
-    name: string;
-    email: string;
-  } | null;
-}
-
-const CheckoutForm: React.FC<CheckoutFormProps> = ({ currentUser }) => {
+const CheckoutForm: React.FC = () => {
   const { cartProducts = [], cartTotalAmount, clearCart } = useCart();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { currentUser } = useAuth();
 
   const {
     register,
@@ -40,8 +34,8 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ currentUser }) => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    // 🔥 Validações fortes antes de prosseguir
-    if (!currentUser?.id) {
+    console.log("Current user before submit:", currentUser);
+    if (currentUser === null) {
       toast.error("Você precisa estar logado para finalizar o pedido.");
       return;
     }
@@ -77,7 +71,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ currentUser }) => {
 
       toast.success("Pedido criado com sucesso!");
       clearCart();
-      router.push(`/order/payment?orderId=${order.id}`);
+      router.push(`/payment?orderId=${order.id}`);
     } catch (error) {
       console.error("Erro ao criar pedido:", error);
       toast.error("Erro ao criar pedido. Tente novamente.");
@@ -165,7 +159,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ currentUser }) => {
           type="submit"
           disabled={isLoading}
           label={isLoading ? "Finalizando..." : "Finalizar Pedido"}
-          onClick={() => {}}
         />
       </form>
     </div>

@@ -1,10 +1,18 @@
-const backendUrl = process.env.NEXT_PUBLIC_API_URL || "";
-const hostname = backendUrl ? new URL(backendUrl).hostname : "";
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: hostname ? [hostname] : [],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "backend-in8-nest-production.up.railway.app",
+        pathname: "/api/images/**",
+      },
+      {
+        protocol: "https",
+        hostname: "via.placeholder.com",
+        pathname: "/**",
+      },
+    ],
   },
 };
 

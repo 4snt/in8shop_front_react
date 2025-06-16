@@ -1,6 +1,6 @@
 "use client";
 
-import { loginServer } from "@/actions/auth";
+import { loginServer } from "@/app/actions/auth";
 import { SafeUser } from "@/types/next-auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -73,7 +73,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ currentUser }) => {
       onSubmit={handleSubmit(onSubmit, onError)}
       className="w-full flex flex-col gap-4"
     >
-      <Heading title="Login na AcheiShop" />
+      <Heading title="Login na In8Shop" />
 
       <Input
         id="email"
