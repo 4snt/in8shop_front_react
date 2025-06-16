@@ -1,12 +1,9 @@
 "use client";
 
-import { getProducts } from "@/actions/products";
 import { Product } from "@/types/product";
 import { SearchParams } from "@/types/SearchParams";
 import { SearchParamsParser } from "@/utils/SearchParamsParser";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
 import FormWrap from "../FormWrap";
 import FilterDrawer from "./FilterDrawer";
 import Pagination from "./Pagination";
@@ -15,12 +12,13 @@ import SearchBar from "./SearchBar";
 
 interface ProductGridProps {
   searchParams?: SearchParams;
+  products: Product[];
 }
 
-export default function ProductGrid({ searchParams }: ProductGridProps) {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-
+export default function ProductGrid({
+  searchParams,
+  products,
+}: ProductGridProps) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -28,11 +26,6 @@ export default function ProductGrid({ searchParams }: ProductGridProps) {
 
   const query = parser.getString("query");
   const currentPage = parser.getNumber("page", 1);
-  const provider = parser.getString("provider");
-  const category = parser.getString("category");
-  const hasDiscount = parser.getBoolean("hasDiscount");
-  const minPrice = parser.getNumber("minPrice");
-  const maxPrice = parser.getNumber("maxPrice");
 
   const PRODUCTS_PER_PAGE = 18;
 
@@ -49,6 +42,7 @@ export default function ProductGrid({ searchParams }: ProductGridProps) {
     });
     return urlParams;
   };
+
   const handleSearch = (value: string) => {
     const params = convertToUrlSearchParams(searchParams ?? {});
     if (value) {
@@ -65,38 +59,11 @@ export default function ProductGrid({ searchParams }: ProductGridProps) {
     params.set("page", String(page));
     router.push(`${pathname}?${params.toString()}`);
   };
-  useEffect(() => {
-    const loadProducts = async () => {
-      setLoading(true);
-
-      const data = await getProducts({
-        query: query || undefined,
-        provider: provider || undefined,
-        category: category || undefined,
-        hasDiscount: hasDiscount ? true : undefined,
-        minPrice: minPrice || undefined,
-        maxPrice: maxPrice || undefined,
-      });
-
-      if (!data.length) {
-        toast.error("Nenhum produto encontrado, retornando à página inicial.");
-        router.push("/");
-        return;
-      }
-
-      setProducts(data);
-      setLoading(false);
-    };
-
-    loadProducts();
-  }, [query, provider, category, hasDiscount, minPrice, maxPrice, router]);
 
   const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
   const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
   const endIndex = startIndex + PRODUCTS_PER_PAGE;
   const currentProducts = products.slice(startIndex, endIndex);
-
-  if (loading) return <p>Carregando produtos...</p>;
 
   return (
     <div className="w-full flex flex-col gap-1">
@@ -120,17 +87,25 @@ export default function ProductGrid({ searchParams }: ProductGridProps) {
           gap-6
         "
       >
-        {currentProducts.map((product) => (
-          <ProductCard key={product.id} data={product} />
-        ))}
+        {currentProducts.length > 0 ? (
+          currentProducts.map((product) => (
+            <ProductCard key={product.id} data={product} />
+          ))
+        ) : (
+          <p className="text-center col-span-full">
+            Nenhum produto encontrado.
+          </p>
+        )}
       </div>
 
       {/* PAGINAÇÃO */}
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
     </div>
   );
 }

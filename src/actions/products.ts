@@ -35,7 +35,7 @@ export async function getProducts(
   params?: GetProductsParams
 ): Promise<Product[]> {
   try {
-    const url = buildUrlWithParams("/products", params);
+    const url = buildUrlWithParams("/api/products", params);
 
     const res = await fetch(url, {
       cache: "no-store",
@@ -59,7 +59,7 @@ export async function getProductById(
 ): Promise<Product | null> {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/products/${productId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}`,
       {
         cache: "no-store",
       }
