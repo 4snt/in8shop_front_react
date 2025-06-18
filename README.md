@@ -78,7 +78,7 @@ Este repositório contém o frontend da In8shop, construído com **Next.js (App 
 1. **Clone & instale dependências**
 
    ```bash
-   git clone <seu-repo-url>
+   git clone https://github.com/4snt/in8shop_front_react
    cd in8shop_frontend
    npm install
    ```
