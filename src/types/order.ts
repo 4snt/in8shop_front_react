@@ -1,5 +1,5 @@
 export interface OrderItemDto {
-  productId: number;
+  productId: string; // <-- Corrigido aqui
   quantity: number;
   price: number;
 }

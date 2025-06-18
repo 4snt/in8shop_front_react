@@ -1,15 +1,13 @@
 "use client";
 
+import { logoutServer } from "@/app/actions/auth";
 import Link from "next/link";
 import { useCallback, useState } from "react";
 import { AiFillCaretDown } from "react-icons/ai";
-
+import { useAuth } from "../../Providers/AuthProvider";
 import Avatar from "../products/Avatar";
 import BackDrop from "./BackDrop";
 import MenuItem from "./MenuItem";
-
-import { useAuth } from "../../Providers/AuthProvider";
-
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { currentUser, setCurrentUser } = useAuth();
@@ -20,7 +18,7 @@ const UserMenu = () => {
 
   const handleLogout = async () => {
     try {
-      await fetch("/api/auth/logout", { method: "POST" });
+      await logoutServer();
       setCurrentUser(null); // limpa do context
       toggleOpen();
     } catch (error) {

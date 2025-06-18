@@ -60,10 +60,14 @@ export async function loginServer({
 }
 
 export async function logoutServer() {
-  const cookieStore = await cookies();
-  cookieStore.delete("token");
-}
+  const cookieStore = cookies();
 
+  cookieStore.delete("token");
+  cookieStore.delete("user");
+  cookieStore.delete("cart");
+
+  return { success: true };
+}
 export async function registerServer({
   name,
   email,

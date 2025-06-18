@@ -7,25 +7,29 @@ import type { Metadata } from "next";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "../Providers/ThemeContext";
 import Footer from "../components/footer/Footer";
+import { getCurrentUser } from "./actions/auth";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  
   title: "In8Shop",
   description: "Demonstração de Ecommerce",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
+  
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const currentUser = await getCurrentUser();
   return (
     <html
       lang="pt-BR"
       className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}
     >
       <body>
-        <AuthProvider>
+        <AuthProvider currentUser={currentUser}>
           <CartProvider>
             <CartDrawerProvider>
               <ThemeProvider>

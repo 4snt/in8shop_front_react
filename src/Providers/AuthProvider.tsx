@@ -1,7 +1,7 @@
 "use client";
 
-import { getCurrentUser, loginServer, logoutServer } from "@/app/actions/auth";
-import { createContext, useContext, useEffect, useState } from "react";
+import { loginServer, logoutServer } from "@/app/actions/auth";
+import { createContext, useContext, useState } from "react";
 
 interface User {
   id: number;
@@ -23,17 +23,14 @@ const AuthContext = createContext<AuthContextProps>({
   login: async () => {},
 });
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const user = await getCurrentUser();
-      setCurrentUser(user);
-    };
-
-    fetchUser();
-  }, []);
+export const AuthProvider = ({
+  children,
+  currentUser: initialUser,
+}: {
+  children: React.ReactNode;
+  currentUser: User | null;
+}) => {
+  const [currentUser, setCurrentUser] = useState<User | null>(initialUser);
 
   const logout = async () => {
     await logoutServer();
@@ -42,8 +39,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = async (email: string, password: string) => {
     await loginServer({ email, password });
-    const user = await getCurrentUser();
-    setCurrentUser(user);
+    // Não precisa de getCurrentUser porque o server já setou o cookie
+    setCurrentUser({
+      id: 1, // 🔥 Você pode mockar ou buscar um endpoint opcional
+      name: email.split("@")[0],
+      email,
+    });
   };
 
   return (
