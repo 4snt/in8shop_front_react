@@ -89,10 +89,13 @@ Este repositório contém o frontend da In8shop, construído com **Next.js (App 
    ```env
    NEXT_PUBLIC_API_URL=http://localhost:8080
    BACKEND_URL=http://localhost:8080
+   ou
+   NEXT_PUBLIC_API_URL=https://backend-in8-nest-production.up.railway.app
+   BACKEND_URL=https://backend-in8-nest-production.up.railway.app
    ```
 
 3. **Backend (NestJS)**
-
+   (esse passo pode ser pulado se for usado https://backend-in8-nest-production.up.railway.app)
    ```bash
    cd backend
    npm install
