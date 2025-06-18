@@ -89,7 +89,6 @@ Este repositório contém o frontend da In8shop, construído com **Next.js (App 
    ```env
    NEXT_PUBLIC_API_URL=http://localhost:8080
    BACKEND_URL=http://localhost:8080
-   DATABASE_URL="file:./dev.db"
    ```
 
 3. **Backend (NestJS)**
