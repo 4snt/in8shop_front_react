@@ -6,7 +6,7 @@ export interface OrderItemDto {
 
 export interface OrderDto {
   id: number;
-  createDate: string; // ISO
+  createDate: string;
   amount: number;
   currency: string;
   status: string;
@@ -15,6 +15,5 @@ export interface OrderDto {
   address?: {
     street: string;
     city: string;
-    // … outros campos
   };
 }

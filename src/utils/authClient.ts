@@ -14,7 +14,7 @@ export async function registerUser({
 }) {
   const res = await fetch(`${API_URL}/auth/register`, {
     method: "POST",
-    credentials: "include", // 🔥 envia cookie
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
@@ -29,7 +29,6 @@ export async function registerUser({
   return await res.json();
 }
 
-// ✅ Login no client → cookie HttpOnly é setado automaticamente
 export async function loginUser({
   email,
   password,
@@ -39,7 +38,7 @@ export async function loginUser({
 }) {
   const res = await fetch(`${API_URL}/auth/login`, {
     method: "POST",
-    credentials: "include", // 🔥 permite cookie cruzado
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
@@ -54,12 +53,11 @@ export async function loginUser({
   return await res.json();
 }
 
-// ✅ Obter usuário no client (não precisa localStorage, usa cookie)
 export async function getCurrentUserClient() {
   try {
     const res = await fetch(`${API_URL}/auth/me`, {
       method: "GET",
-      credentials: "include", // 🔥 cookie vai automaticamente
+      credentials: "include",
     });
 
     if (!res.ok) return null;
@@ -70,8 +68,6 @@ export async function getCurrentUserClient() {
     return null;
   }
 }
-
-// ✅ Logout no client → backend limpa o cookie
 export async function logoutClient() {
   await fetch(`${API_URL}/auth/logout`, {
     method: "POST",

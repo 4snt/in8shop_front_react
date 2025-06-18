@@ -3,7 +3,7 @@ export interface Product {
   name: string;
   description: string;
   price: number;
-  images: string[]; // 🔥 Agora é um array de imagens
+  images: string[];
   provider: string;
   hasDiscount: boolean;
   discountValue: number;

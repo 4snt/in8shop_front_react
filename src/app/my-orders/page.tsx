@@ -1,4 +1,3 @@
-// src/app/my-orders/page.tsx
 import { getMyOrders } from "@/app/actions/myOrders";
 import type { OrderDto } from "@/types/order";
 import { formatPrice } from "@/utils/formatPrice";

@@ -1,4 +1,3 @@
-// app/payment/PaymentClient.tsx
 "use client";
 
 import { useAuth } from "@/Providers/AuthProvider";
